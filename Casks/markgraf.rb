@@ -1,19 +1,23 @@
 cask "markgraf" do
-  version "0.0.42"
-  sha256 "42dd22c75d088a057aa2dd47e6ac6473009abf9ef45b984456e67aa4a229b777"
+  version "0.0.44"
+  sha256 "0b86f06b600c879a19998b4660881b882053aecd65323c5c7f0d90c16b33b466"
 
-  url "https://github.com/markgrafhq/homebrew-tap/releases/download/v0.0.42/markgraf-darwin-arm64.tar.gz"
+  url "https://github.com/markgrafhq/homebrew-tap/releases/download/v0.0.44/markgraf-darwin-arm64.tar.gz"
   name "markgraf"
-  desc "Animated graph diagrams CLI"
+  desc "Animated graph diagram editor and CLI"
   homepage "https://github.com/markgrafhq/homebrew-tap"
 
-  binary "markgraf-darwin-arm64", target: "markgraf"
+  depends_on arch: :arm64
+  depends_on macos: ">= :sonoma"
+
+  app "Markgraf Editor.app"
+  binary "#{appdir}/Markgraf Editor.app/Contents/MacOS/markgraf", target: "markgraf"
 
   # Unsigned + un-notarized: strip quarantine so Gatekeeper
   # doesn't block first launch.
   preflight do
     system_command "/usr/bin/xattr",
-                   args: ["-cr", "#{staged_path}/markgraf-darwin-arm64"],
+                   args: ["-cr", "#{staged_path}/Markgraf Editor.app"],
                    must_succeed: false
   end
 end
